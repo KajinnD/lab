@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 
-#define ULONGLONG long long unsigned int
+#define ULONGLONG unsigned long long int
 
 struct cell {
   ULONGLONG nbPrime;
