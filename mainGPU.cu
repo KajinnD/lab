@@ -93,9 +93,8 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
-  __shared__ ULONGLONG j;
+  ULONGLONG j;
 
-  __syncthreads();
   while (tid < *N) {
     //SI LE CHIFFRE COURANT EST UN PRIME
       if (listePrime[tid]) {
@@ -165,7 +164,7 @@ int main(int argc, char *argv[]) {
       inData[j] = i;
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
-      v0_isPrimeGPU<<<5, 16>>>(dev_inData, dev_n, dev_isPrime);
+      v0_isPrimeGPU<<<1, n>>>(dev_inData, dev_n, dev_isPrime);
       cudaMemcpy(&isPrime, dev_isPrime, sizeof(bool), cudaMemcpyDeviceToHost);
       listPrime[j] = isPrime;
       j++;
