@@ -77,15 +77,15 @@ void v0_factoCPU(ULONGLONG N, ULONGLONG * listFinale){
 }
 
 __global__ void v0_isPrimeGPU(ULONGLONG * inData, ULONGLONG * N, bool * isPrime) {
+  if (isPrime){
+     ULONGLONG tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  //SANS REDUCTION
-  ULONGLONG tid = blockIdx.x * blockDim.x + threadIdx.x;
-
-  while (tid < *N) {
-    if (*N % inData[tid] == 0) {
-      *isPrime = false;
-    }
-    tid += blockDim.x * gridDim.x;
+     while (tid < *N) {
+       if (*N % inData[tid] == 0) {
+         *isPrime = false;
+       }
+       tid += blockDim.x * gridDim.x;
+     }
   }
 }
 
@@ -107,20 +107,20 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
   }
 }
 
-__global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
+__global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData, ULONGLONG* i, ULONGLONG* j){
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  ULONGLONG i = 0;
-  ULONGLONG j = 0;
+  /*ULONGLONG i = 0;
+  ULONGLONG j = 0;*/
 
 //SYNCH_THREAD ???
   while(tid < *N){
     if(*N % listePrime[i] == 0) {     //SI IL EST DIVISIBLE PAR LE NBP DE LA LISTE
-      *N = *N/listePrime[i];          // ON DIVISE TMP
-      outData[j] = listePrime[i];    //ON AJOUTE LE NBP DIVISEUR A LA LISTE listFinale
-      j++;
+       *N = *N/listePrime[i];          // ON DIVISE TMP
+       outData[j] = listePrime[i];    //ON AJOUTE LE NBP DIVISEUR A LA LISTE listFinale
+       j++;
     } else {                         // SINON ON INCREMENTE I POUR PASSER AU NBP SUIVANT DANS LA LISTE
-      i++;
+       i++;
     }
     tid += blockDim.x * gridDim.x;
   }
@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
       inData[j] = i;
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
-      v0_isPrimeGPU<<<n/6+1, 6>>>(dev_inData, dev_n, dev_isPrime);
+      v0_isPrimeGPU<<<sqrt(n)+1/512, 521>>>(dev_inData, dev_n, dev_isPrime);
       cudaMemcpy(&isPrime, dev_isPrime, sizeof(bool), cudaMemcpyDeviceToHost);
       listPrime[j] = isPrime;
       j++;
