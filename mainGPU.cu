@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
     }
 
     cudaMemcpy(dev_isPrime, listPrime, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
-    searchPrimesGPU<<<10,32>>>(dev_inData, dev_isPrime, dev_n, dev_outData);
+    //searchPrimesGPU<<<10,32>>>(dev_inData, dev_isPrime, dev_n, dev_outData);
     cudaMemcpy(&outData, dev_outData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyDeviceToHost);
 
     // Launch kernel
