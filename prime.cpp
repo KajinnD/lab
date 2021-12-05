@@ -1,23 +1,3 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-//#include <cuda.h>
-#include <math.h>
-//#include <cuda_runtime.h>
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-
-#define ULONGLONG long long unsigned int
-
-using namespace std;
-
-struct cell {
-  ULONGLONG nbPrime;
-  int exposant;
-
-};
-
 int isIn(vector<cell> liste, ULONGLONG n){
    int i = 0;
    while (i < liste.size()){
@@ -86,27 +66,4 @@ void v0_factoCPU(ULONGLONG N, vector<cell> listFinale){
         i++;
       }
    }
-}
-
-
-int main(int argc, char *argv[]) {
-   ULONGLONG n = atoi(argv[1]);
-   vector<cell> liste;
-   v0_factoCPU(n, liste);
-
-   // AFFICHAGE DE LA DECOMPOSITION
-   ULONGLONG i=0;
-   while(liste[i].nbPrime != 0) {
-     printf("%llu à la puissance %d\n", liste.at(i).nbPrime, liste.at(i).exposant);
-     i++;
-   }
-
-   // TEST SI IL EST PREMIER
-   if (isPrimeCPU(n, liste)) {
-     printf("true\n");
-   } else {
-     printf("false\n");
-   }
-
-   return 0;
 }
