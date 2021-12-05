@@ -93,7 +93,7 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
-  __shared__ ULONGLONG j;
+  __shared__ ULONGLONG * j[1];
 
   __syncthreads();
 
@@ -103,7 +103,7 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
           //cell prime;
           //prime.nbPrime = inData[tid];
           outData[j] = inData[tid];
-          atomicAdd(j, (ULONGLONG)1);
+          atomicAdd(&j, (ULONGLONG)1);
       }
       tid += blockDim.x * gridDim.x;
   }
