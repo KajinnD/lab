@@ -98,12 +98,12 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
   while (tid < *N) {
     //SI LE CHIFFRE COURANT EST UN PRIME
       if (listePrime[tid]) {
-         //cell prime;
-         //prime.nbPrime = inData[tid];
-         outData[j] = inData[tid];
-         j++;
-       }
-    tid += blockDim.x * gridDim.x;
+          //cell prime;
+          //prime.nbPrime = inData[tid];
+          outData[j] = inData[tid];
+          j++;
+      }
+      tid += blockDim.x * gridDim.x;
   }
 }
 
@@ -122,7 +122,6 @@ __global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
     } else {                         // SINON ON INCREMENTE I POUR PASSER AU NBP SUIVANT DANS LA LISTE
       i++;
     }
-
     tid += blockDim.x * gridDim.x;
   }
 }
@@ -155,12 +154,12 @@ int main(int argc, char *argv[]) {
    cudaMalloc(&dev_n, sizeof(ULONGLONG));
    cudaMalloc(&dev_outData, sqrt(n) * sizeof(ULONGLONG));
    cudaMalloc(&dev_isPrime, sizeof(bool));
-
+    printf("allocation\n");
    // Copy from Host to Device
 		cudaMemcpy(dev_n, &n, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
     //cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
     //cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
-
+    printf("copie\n");
 
     inData[0] = 2;
     for (ULONGLONG i = 3; i < sqrt(n); i = i + 2) {
