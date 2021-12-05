@@ -116,7 +116,7 @@ __global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
 //SYNCH_THREAD ???
   while(tid < *N){
     if(*N % listePrime[i] == 0) {     //SI IL EST DIVISIBLE PAR LE NBP DE LA LISTE
-      *N = *N/listPrime[i];          // ON DIVISE TMP
+      *N = *N/listePrime[i];          // ON DIVISE TMP
       outData[j] = listePrime[i];    //ON AJOUTE LE NBP DIVISEUR A LA LISTE listFinale
       j++;
     } else {                         // SINON ON INCREMENTE I POUR PASSER AU NBP SUIVANT DANS LA LISTE
