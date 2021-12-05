@@ -81,8 +81,8 @@ __global__ void v0_isPrimeGPU(ULONGLONG * inData, ULONGLONG * N, bool * isPrime)
   //SANS REDUCTION
   ULONGLONG tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  while (tid < &N) {
-    if (&N % inData[tid] == 0) {
+  while (tid < *N) {
+    if (*N % inData[tid] == 0) {
       *isPrime = false;
     }
     tid += blockDim.x * gridDim.x;
@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
       inData[j] = i;
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
-      v0_isPrimeGPU<<<n, 1>>>(dev_inData, dev_n, dev_isPrime);
+      v0_isPrimeGPU<<<5, 16>>>(dev_inData, dev_n, dev_isPrime);
       cudaMemcpy(&isPrime, dev_isPrime, sizeof(bool), cudaMemcpyDeviceToHost);
       listPrime[j] = isPrime;
       j++;
