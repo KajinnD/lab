@@ -165,6 +165,7 @@ int main(int argc, char *argv[]) {
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
       v0_isPrimeGPU<<<5, 16>>>(dev_inData, dev_n, dev_isPrime);
+      printf("fin\n");
       cudaMemcpy(&isPrime, dev_isPrime, sizeof(bool), cudaMemcpyDeviceToHost);
       listPrime[j] = isPrime;
       j++;
