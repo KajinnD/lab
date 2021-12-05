@@ -80,9 +80,9 @@ __global__ void v0_isPrimeGPU(ULONGLONG * inData, ULONGLONG * N, bool * isPrime)
   if (isPrime){
      ULONGLONG tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-     while (tid < N) {
+     while (tid < &N) {
        if (inData[tid] != 0) {
-          if (N % inData[tid] == 0) {
+          if (&N % inData[tid] == 0) {
               *isPrime = false;
           }
        }
