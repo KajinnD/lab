@@ -93,15 +93,17 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
-  ULONGLONG j;
+  __shared__ ULONGLONG j;
 
+  __syncthreads();
+  
   while (tid < *N) {
     //SI LE CHIFFRE COURANT EST UN PRIME
       if (listePrime[tid]) {
           //cell prime;
           //prime.nbPrime = inData[tid];
           outData[j] = inData[tid];
-          j++;
+          atomicAdd(j, 1);
       }
       tid += blockDim.x * gridDim.x;
   }
