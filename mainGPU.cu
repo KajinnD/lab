@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
       inData[j] = i;
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
-      v0_isPrimeGPU<<<sqrt(n)+1/512, 521>>>(dev_inData, dev_n, dev_isPrime);
+      v0_isPrimeGPU<<<n+1/512, 521>>>(dev_inData, dev_n, dev_isPrime);
       cudaMemcpy(&isPrime, dev_isPrime, sizeof(bool), cudaMemcpyDeviceToHost);
       listPrime[j] = isPrime;
       j++;
@@ -177,9 +177,9 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    cudaMemcpy(dev_isPrime, listPrime, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
-    //searchPrimesGPU<<<10,32>>>(dev_inData, dev_isPrime, dev_n, dev_outData);
-    cudaMemcpy(&outData, dev_outData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyDeviceToHost);
+    /*cudaMemcpy(dev_isPrime, listPrime, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
+    searchPrimesGPU<<<10,32>>>(dev_inData, dev_isPrime, dev_n, dev_outData);
+    cudaMemcpy(&outData, dev_outData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyDeviceToHost);*/
 
     // Launch kernel
     //v0_isPrimeGPU<<<10, 32>>>(dev_inData, dev_n, dev_isPrime);
