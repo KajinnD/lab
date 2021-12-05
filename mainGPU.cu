@@ -107,7 +107,7 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
   }
 }
 
-__global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData,){
+__global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
   ULONGLONG i = 0;
