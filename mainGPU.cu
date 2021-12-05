@@ -93,7 +93,7 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
-  ULONGLONG j = 0;
+  __shared__ ULONGLONG j;
 
   while (tid < *N) {
     //SI LE CHIFFRE COURANT EST UN PRIME
