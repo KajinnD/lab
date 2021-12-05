@@ -2,19 +2,18 @@
 
 int main(int argc, char *argv[]) {
    ULONGLONG n = atoi(argv[1]);
-   ULONGLONG * liste = (ULONGLONG*) calloc(sqrt(n), sizeof(ULONGLONG));
-   //searchPrimesCPU(n, liste);
+   vector<cell> liste;
    v0_factoCPU(n, liste);
 
    // AFFICHAGE DE LA DECOMPOSITION
    ULONGLONG i=0;
-   while(liste[i] != 0) {
-     printf("%llu\n", liste[i]);
+   while(liste[i].nbPrime != 0) {
+     printf("%llu à la puissance %d\n", liste.at(i).nbPrime, liste.at(i).exposant);
      i++;
    }
-   
+
    // TEST SI IL EST PREMIER
-   if (isPrimeCPU(n)) {
+   if (isPrimeCPU(n, liste)) {
      printf("true\n");
    } else {
      printf("false\n");

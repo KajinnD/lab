@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
    inData[0] = 2;
    for (ULONGLONG i = 3; i < sqrt(n); i = i + 2) {
       inData[j] = i;
-      printf("%lln\n", i);
+      printf("%llu\n", i);
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
       v0_isPrimeGPU<<<n+1/512, 512>>>(dev_inData, dev_n, dev_isPrime);
