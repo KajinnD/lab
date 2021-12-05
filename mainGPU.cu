@@ -94,7 +94,8 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
   __shared__ ULONGLONG j;
-
+  
+  __syncthreads();
   while (tid < *N) {
     //SI LE CHIFFRE COURANT EST UN PRIME
       if (listePrime[tid]) {
@@ -110,8 +111,8 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 __global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  ULONGLONG i = 0;
-  ULONGLONG j = 0;
+  __shared__ ULONGLONG i = 0;
+  __shared__ ULONGLONG j = 0;
 
 //SYNCH_THREAD ???
   while(tid < *N){
