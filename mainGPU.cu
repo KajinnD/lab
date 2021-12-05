@@ -157,13 +157,14 @@ int main(int argc, char *argv[]) {
    cudaMalloc(&dev_outData, sqrt(n) * sizeof(ULONGLONG));
    cudaMalloc(&dev_isPrime, sizeof(bool));
    // Copy from Host to Device
-		cudaMemcpy(dev_n, &n, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
-    //cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
-    //cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
+	 cudaMemcpy(dev_n, &n, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
+   //cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
+   //cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
 
-    inData[0] = 2;
-    for (ULONGLONG i = 3; i < sqrt(n); i = i + 2) {
+   inData[0] = 2;
+   for (ULONGLONG i = 3; i < sqrt(n); i = i + 2) {
       inData[j] = i;
+      printf("%lln\n", i);
       cudaMemcpy(dev_inData, inData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyHostToDevice);
       cudaMemcpy(dev_isPrime, &isPrime, sizeof(bool), cudaMemcpyHostToDevice);
       v0_isPrimeGPU<<<n+1/512, 512>>>(dev_inData, dev_n, dev_isPrime);
@@ -179,10 +180,10 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    cudaMemcpy(dev_isPrime, listPrime, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
+  /*cudaMemcpy(dev_isPrime, listPrime, sizeof(ULONGLONG), cudaMemcpyHostToDevice);
     searchPrimesGPU<<<n+1/512, 512>>>(dev_inData, dev_isPrime, dev_n, dev_outData);
     cudaMemcpy(&outData, dev_outData, sqrt(n) * sizeof(ULONGLONG), cudaMemcpyDeviceToHost);
-
+*/
     // Launch kernel
     //v0_isPrimeGPU<<<10, 32>>>(dev_inData, dev_n, dev_isPrime);
 

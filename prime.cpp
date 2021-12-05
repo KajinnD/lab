@@ -1,3 +1,22 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <cuda.h>
+#include <math.h>
+#include <cuda_runtime.h>
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+
+#define ULONGLONG long long unsigned int
+
+using namespace std;
+
+struct cell {
+  ULONGLONG nbPrime;
+  int exposant;
+};
+
 int isIn(vector<cell> liste, ULONGLONG n){
    int i = 0;
    while (i < liste.size()){
