@@ -93,7 +93,7 @@ __global__ void searchPrimesGPU(ULONGLONG * inData, bool * listePrime, ULONGLONG
 
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   //pb avec le j
-  __shared__ ULONGLONG j = 0;
+  __shared__ ULONGLONG j;
 
   __syncthreads();
   while (tid < *N) {
@@ -113,7 +113,8 @@ __global__ void factoGPU(bool * listePrime, ULONGLONG * N, ULONGLONG * outData){
 
   __shared__ ULONGLONG i = 0;
   __shared__ ULONGLONG j = 0;
-
+  
+  __syncthreads();
 //SYNCH_THREAD ???
   while(tid < *N){
     if(*N % listePrime[i] == 0) {     //SI IL EST DIVISIBLE PAR LE NBP DE LA LISTE
